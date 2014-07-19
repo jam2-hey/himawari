@@ -10,6 +10,7 @@
   "license": "ISC",
   "devDependencies": {
     "grunt": "~0.4.5",
-    "mysql": "~2.4.1"
+    "mysql": "~2.4.1",
+    "socket.io": "~1.0.6"
   }
 }
