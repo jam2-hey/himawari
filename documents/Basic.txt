@@ -1,0 +1,13 @@
+= 域名 =
+
+不同的域名，透過 Apache 的 vhost 功能，將導向專案下面不同的目錄（除了wa-api），進行程式功能的區分。
+其實不論哪個域名都是連接到同一台主機，只是檔案取用的範圍不同。
+
+1. client.himawari.local
+    客戶端，客人進行點菜的機器。可以有多台電腦使用這個域名連接主機。
+2. backend.himawari.local
+    店長端，店長檢視訂單與進行管理的機器。只能有一台電腦使用這個域名連接主機。
+3. assets.himawari.local
+    遞送靜態檔案使用的域名，讓客戶端與店長端取用共用的檔案，如圖片或是 JS 套件。
+4. ws-api.himawari.local
+    Socket.io Websocket 使用的域名，供 socket.io 與伺服器建立永久連線。不得使用瀏覽器開啟。
