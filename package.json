@@ -9,6 +9,7 @@
   "author": "Polyamide",
   "license": "ISC",
   "devDependencies": {
-    "grunt": "~0.4.5"
+    "grunt": "~0.4.5",
+    "mysql": "~2.4.1"
   }
 }
