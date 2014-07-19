@@ -1,0 +1,65 @@
+1. 設定網路環境。
+    1. 無線網路需要加密並隱藏。
+    2. 確定後端、客戶端與伺服器的IP位置不會亂變。
+
+2. 設定域名。
+    1. 將下列域名設定加入後端之 hosts 檔案中。
+    
+        {伺服器的IP}    backend.himawari.local
+        {伺服器的IP}    ws-api.himawari.local
+        {伺服器的IP}    assets.himawari.local
+        
+        若作業系統支援IPv6，也需要加入下面。
+        
+        {伺服器的IPv6}    backend.himawari.local
+        {伺服器的IPv6}    ws-api.himawari.local
+        {伺服器的IPv6}    assets.himawari.local
+    
+    2. 將下列域名設定加入客戶端之 hosts 檔案中。
+    
+        {伺服器的IP}    client.himawari.local
+        {伺服器的IP}    ws-api.himawari.local
+        {伺服器的IP}    assets.himawari.local
+        
+        若作業系統支援IPv6，也需要加入下面。
+        
+        {伺服器的IPv6}    client.himawari.local
+        {伺服器的IPv6}    ws-api.himawari.local
+        {伺服器的IPv6}    assets.himawari.local
+        
+    3. 若伺服器與後端架在同一台主機上，則使用 127.0.0.1 / fe80::1%lo0 (Loopback)
+    
+3. Apache vhost 設定，在 httpd.conf 加入下列：
+    
+    <VirtualHost *:80>
+        DocumentRoot {專案位置}/client/
+        ServerName client.himawari.local
+        <Directory {專案位置}/client/>
+            Options Indexes FollowSymLinks MultiViews
+            allowOverride all
+            Order allow,deny
+            allow from all
+        </Directory>
+    </VirtualHost>
+    
+    <VirtualHost *:80>
+        DocumentRoot {專案位置}/backend/
+        ServerName backend.himawari.local
+        <Directory {專案位置}/backend/>
+            Options Indexes FollowSymLinks MultiViews
+            allowOverride all
+            Order allow,deny
+            allow from all
+        </Directory>  
+    </VirtualHost>
+    
+    <VirtualHost *:80>
+        DocumentRoot {專案位置}/assets/
+        ServerName assets.himawari.local
+        <Directory {專案位置}/assets/>
+            Options Indexes FollowSymLinks MultiViews
+            allowOverride all
+            Order allow,deny
+            allow from all
+        </Directory>
+    </VirtualHost>
