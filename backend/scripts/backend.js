@@ -1,5 +1,1 @@
-function BackendHimawari() {
-	
-}
-
-var app = new BackendHimawari();
+var app = angular.module('BackendHimawari', []);
