@@ -22,7 +22,7 @@ function Himawari() {
             backend_socket = io.of('/backend');
 
         client_socket.on('connection', function(socket) {
-            sockets.clients.push(socket);s
+            sockets.clients.push(socket);
         });
 
         backend_socket.on('connection', function(socket) {
