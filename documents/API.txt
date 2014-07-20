@@ -9,19 +9,29 @@ API 使用說明
     var socket = io.connect(WS_API_SERVER + '/backend');
 
 2. 初始化，傳入 Server 的 Socket.io 連結。
-    var api = new Api();
-    api.init(socket);
+    var api = new Api(socket);
 
 3. 請求資料 (GET)：
     api.get('members/list', /* Data (Optional) */)
         .then(function (data) {
             app.members = data;
+        },
+        function (data) {
+            app.showError();
         });
 
 4. 送出資料 (POST)
     api.post('member/new', /* a Member Object */)
-        .then(function(data){
+        .then(function(data) {
             app.showMessage("Welcome! " + data.member.nickname);
+        },
+        function (data) {
+            app.showError();
         });
-      
+
+5. .then(onFullfill, onReject)
+    .then 接受兩個 function 作為參數。
+    onFullfill(/* 回傳結果 */) 將在請求成功完成後被呼叫。
+    onReject(/* 錯誤訊息 */)將在發生錯誤時被呼叫。
+
 API 物件會自動包裝 Socket.io 的 emit 與 promise。
