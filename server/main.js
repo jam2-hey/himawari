@@ -1,30 +1,32 @@
 function Himawari() {
 
-	var io,
-		clients = [],
-		backend = null;
+    var io,
+        clients = [],
+        backend = null;
 
-	function main() {
-		requires();
-		handleConnections();
-	}
+    main();
 
-	function requires() {
-		io = require('socket.io')(9999);
-	}
+    function main() {
+        requires();
+        handleConnections();
+    }
 
-	function handleConnections() {
-		var client_socket = io.of('/client'),
-			backend_socket = io.of('/backend');
+    function requires() {
+        io = require('socket.io').listen(9999);
+    }
 
-		client_socket.on('connection', function(socket) {
-			clients.push(socket);s
-		});
+    function handleConnections() {
+        var client_socket = io.of('/client'),
+            backend_socket = io.of('/backend');
 
-		backend_socket.on('connection', function(socket) {
-			backend = socket;
-		});
-	}
+        client_socket.on('connection', function(socket) {
+            clients.push(socket);s
+        });
+
+        backend_socket.on('connection', function(socket) {
+            backend = socket;
+        });
+    }
 }
 
-app = new Himawari();
+var app = new Himawari();
