@@ -1,0 +1,27 @@
+API 使用說明
+
+使用 API 物件來存取 Server 提供的 API。
+
+1. 建立Socket.io連線。
+    1. 客戶端：
+    var socket = io.connect(WS_API_SERVER + '/client');
+    2. 店長端：
+    var socket = io.connect(WS_API_SERVER + '/backend');
+
+2. 初始化，傳入 Server 的 Socket.io 連結。
+    var api = new Api();
+    api.init(socket);
+
+3. 請求資料 (GET)：
+    api.get('members/list', /* Data (Optional) */)
+        .then(function (data) {
+            app.members = data;
+        });
+
+4. 送出資料 (POST)
+    api.post('member/new', /* a Member Object */)
+        .then(function(data){
+            app.showMessage("Welcome! " + data.member.nickname);
+        });
+      
+API 物件會自動包裝 Socket.io 的 emit 與 promise。
