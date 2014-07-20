@@ -1,8 +1,10 @@
 function Himawari() {
 
     var io,
-        clients = [],
-        backend = null;
+        sockets = {
+            clients: [],
+            backend: null
+        }
 
     main();
 
@@ -20,11 +22,11 @@ function Himawari() {
             backend_socket = io.of('/backend');
 
         client_socket.on('connection', function(socket) {
-            clients.push(socket);s
+            sockets.clients.push(socket);s
         });
 
         backend_socket.on('connection', function(socket) {
-            backend = socket;
+            sockets.backend = socket;
         });
     }
 }
