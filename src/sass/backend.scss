@@ -1,0 +1,25 @@
+@import "compass/reset";
+@import "backend/var";
+@import "shared/util";
+@import "shared/buttons";
+
+html {
+    margin: 0 auto;
+    background-color: #555;
+}
+
+body {
+    width: 1024px;
+    height: 768px;
+    background-color: #FFF;
+}
+
+.topBar {
+    width: 100%;
+    height: $topbar-height;
+    background-color: $color-primary;
+    button {
+        height: $topbar-height - 10px * 2;
+        margin: 10px;
+    }
+}

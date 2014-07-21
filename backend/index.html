@@ -3,13 +3,21 @@
 <head>
     <meta charset="utf-8">
     <title>Backend - Himawari 點餐系統</title>
+    <link rel="stylesheet" type="text/css" href="//assets.himawari.local/styles/backend.css">
     <link rel="stylesheet" type="text/css" href="//assets.himawari.local/styles/font-awesome/font-awesome.css">
     <script src="//ws-api.himawari.local:9999/socket.io/socket.io.js"></script>
     <script src="//assets.himawari.local/lib/angular.min.js"></script>
     <script src="//assets.himawari.local/lib/promise-4.0.0.js"></script>
     <script src="/scripts/backend.js"></script>
     <script src="/scripts/controller/mainController.js"></script>
+    <script src="/scripts/controller/topBarController.js"></script>
 </head>
 <body ng-controller="mainCtrl">
+    <div class="topBar" ng-controller="topBarCtrl">
+        <button class=""><i class="fa fa-bar-chart-o"></i>統計</button>
+        <button class=""><i class="fa fa-cutlery"></i>菜單</button>
+        <button class=""><i class="fa fa-sitemap"></i>控制</button>
+        <button class="warning float-right"><i class="fa fa-cog"></i>管理</button>
+    </div>
 </body>
 </html>
