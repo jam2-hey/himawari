@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Polyamide",
-  "license": "ISC",
+  "license": "",
   "devDependencies": {
     "grunt": "~0.4.5",
     "mysql": "~2.4.1",
