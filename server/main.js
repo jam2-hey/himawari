@@ -6,6 +6,7 @@ function Himawari() {
         Route, Router,
         router,
         db,
+        Member,
         sockets = {
             clients: [],
             backend: null
