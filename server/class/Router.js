@@ -1,20 +1,22 @@
 module.exports = function Router() {
-    
+
     var routes = {'get': [], 'post': [], 'update': [], 'delete': []};
 
+    var Route = require('./Route.js');
+
     this.addRoute = function (route) {
-        if (typeof route == 'Route') {
-            routes[route.getMethod].push(route);
+        if (route instanceof Route) {
+            routes[route.getMethod()].push(route);
         } else {
             throw "Himawari.Router: Invalid 'Route' object.";
         }
     }
-    
+
     this.match = function (reqMethod, reqUrl) {
         var pre_regex, regex, route, args;
         if (!regMethod.toLowerCase() in routes) throw "Himawari.Router: Method unknown.";
         for (var i = 0; i < routes[reqMethod].length; i++) {
-            route = routes[reqMethod]routes[i];
+            route = routes[reqMethod][i];
             pre_regex = route.getUrl().replace(/\/:[\w]+\//g, '/([\\w\\d]+)/');
             regex = new RegExp('^' + pre_regex + '$');
             if (reg.test(reqUrl)) {
