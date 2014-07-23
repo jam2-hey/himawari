@@ -1,6 +1,6 @@
 function Himawari() {
 
-    var io,
+    var io, Route, Router,
         sockets = {
             clients: [],
             backend: null
@@ -14,7 +14,11 @@ function Himawari() {
     }
 
     function requires() {
+        // Libraries
         io = require('socket.io').listen(9999);
+        // Classes
+        Route = require('./class/Route.js');
+        Router = require('./class/Router.js');
     }
 
     function handleConnections() {
