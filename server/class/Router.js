@@ -6,7 +6,7 @@ module.exports = function Router() {
         if (typeof route == 'Route') {
             routes[route.getMethod].push(route);
         } else {
-            throw "Himawari.Route: Invalid 'Route' object.";
+            throw "Himawari.Router: Invalid 'Route' object.";
         }
     }
     
