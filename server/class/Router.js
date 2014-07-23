@@ -2,7 +2,7 @@ module.exports = function Router() {
     
     var routes = {'get': [], 'post': [], 'update': [], 'delete': []};
 
-    this.route = function (route) {
+    this.addRoute = function (route) {
         if (typeof route == 'Route') {
             routes[route.getMethod].push(route);
         } else {
@@ -36,7 +36,7 @@ module.exports = function Router() {
             var r;
             for (var i = 0; i < route_def.length; i++) {
                 r = route_def[i];
-                this.route(new Route(r[0], r[1], r[2]));
+                this.addRoute(new Route(r[0], r[1], r[2]));
             }
             if (typeof callback === 'function') callback();
         }
