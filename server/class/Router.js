@@ -3,6 +3,7 @@ module.exports = function Router() {
     var routes = {'get': [], 'post': [], 'update': [], 'delete': []};
 
     var Route = require('./Route.js');
+    var Promise = require('promise');
 
     this.addRoute = function (route) {
         if (route instanceof Route) {
@@ -26,21 +27,23 @@ module.exports = function Router() {
         }
         return false;
     }
-    
-    this.load = function (file, callback) {
-        var route_def;
-        require('fs').readFile(file, 'utf8', function (ex, data) {
-            if (ex) throw 'Himawari.Router: Load error, due to \'' + ex + '\'';
-            route_def = JSON.parse(data);
-            process();
+
+    this.load = function (file) {
+        var self = this;
+        return new Promise(function (fullfill) {
+            require('fs').readFile(file, 'utf8', function (ex, data) {
+                if (ex) throw 'Himawari.Router: Load error, due to \'' + ex + '\'';
+                var route_def = JSON.parse(data);
+                for (var i = 0; i < route_def.length; i++) {
+                    r = route_def[i];
+                    self.addRoute(new Route(r[0], r[1], r[2]));
+                }
+                fullfill();
+            });
         });
-        function process() {
-            var r;
-            for (var i = 0; i < route_def.length; i++) {
-                r = route_def[i];
-                this.addRoute(new Route(r[0], r[1], r[2]));
-            }
-            if (typeof callback === 'function') callback();
-        }
+    }
+
+    this.getRoutes = function () {
+        return routes;
     }
 }
