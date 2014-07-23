@@ -1,0 +1,6 @@
+{
+    "files": {
+        "db_config": "./db.json",
+        "route": "./routes.json"
+    }
+}
