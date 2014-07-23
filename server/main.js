@@ -20,9 +20,9 @@ function Himawari() {
         loadConfig()
             .then(requires)
             .then(initDatabase)
+            .then(handleConnections)
             .then(initControllers)
-            .then(initRouter)
-            .then(handleConnections);
+            .then(initRouter);
     }
 
     function loadConfig() {
