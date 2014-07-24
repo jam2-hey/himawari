@@ -3,7 +3,7 @@ module.exports = function Router() {
     var routes = {'get': [], 'post': [], 'update': [], 'delete': []};
 
     var Route = require('./Route.js');
-    var Promise = require('promise');
+    var Q = require('q');
 
     this.addRoute = function (route) {
         if (route instanceof Route) {
@@ -29,18 +29,18 @@ module.exports = function Router() {
     }
 
     this.load = function (file) {
-        var self = this;
-        return new Promise(function (fullfill) {
-            require('fs').readFile(file, 'utf8', function (ex, data) {
-                if (ex) throw 'Himawari.Router: Load error, due to \'' + ex + '\'';
-                var route_def = JSON.parse(data);
-                for (var i = 0; i < route_def.length; i++) {
-                    r = route_def[i];
-                    self.addRoute(new Route(r[0], r[1], r[2]));
-                }
-                fullfill();
-            });
+        var self = this,
+            deferred = Q.defer();
+        require('fs').readFile(file, 'utf8', function (ex, data) {
+            if (ex) throw 'Himawari.Router: Load error, due to \'' + ex + '\'';
+            var route_def = JSON.parse(data);
+            for (var i = 0; i < route_def.length; i++) {
+                r = route_def[i];
+                self.addRoute(new Route(r[0], r[1], r[2]));
+            }
+            deferred.resolve();
         });
+        return deferred.promise;
     }
 
     this.getRoutes = function () {

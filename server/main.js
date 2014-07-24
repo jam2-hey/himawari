@@ -3,16 +3,12 @@ function Himawari() {
     var CONFIG_FILE = './config.json',
         config,
         io,
-        Route, Router,
-        router,
         db,
-        Member,
-        sockets = {
-            clients: [],
-            backend: null
-        };
+        router,
+        clients,
+        backend;
 
-    var Promise = require('promise');
+    var Q = require('q');
     var fs = require('fs');
 
     main();
@@ -23,63 +19,66 @@ function Himawari() {
             .then(initDatabase)
             .then(handleConnections)
             .then(initControllers)
-            .then(initRouter);
+            .then(initRouter)
+            .then(function (){});
     }
 
     function loadConfig() {
-        return new Promise(function (fullfill) {
-            fs.readFile(CONFIG_FILE, 'utf8', function (ex, data) {
-                if (ex) throw "Himawari: Connat load config file. Due to '" + ex + "'"
-                config = JSON.parse(data);
-                fullfill();
-            });
+        var deferred = Q.defer();
+        fs.readFile(CONFIG_FILE, 'utf8', function (ex, data) {
+            if (ex) throw "Himawari: Connat load config file. Due to '" + ex + "'"
+            config = JSON.parse(data);
+            deferred.resolve();
         });
+        return deferred.promise;
     }
 
     function requires() {
-        return new Promise(function (fullfill) {
-            // Libraries
-            io = require('socket.io').listen(9999);
-            _ = require('underscore');
-            mysql = require('mysql');
-            // Classes
-            Route = require('./class/Route.js');
-            Router = require('./class/Router.js');
-            // Controller
-            Member = require('./controller/members.js');
-            fullfill();
-        });
+        var deferred = Q.defer();
+        // Libraries
+        io = require('socket.io').listen(9999);
+        _ = require('underscore');
+        mysql = require('mysql');
+        // Classes
+        Route = require('./class/Route.js');
+        Router = require('./class/Router.js');
+        Clients = require('./class/Clients.js');
+        // Controller
+        Member = require('./controller/members.js');
+        deferred.resolve();
+        return deferred.promise;
     }
 
     function initDatabase() {
-        return new Promise(function (fullfill) {
-            fs.readFile(config.files.db_config, 'utf8', function (ex, data) {
-                var db_config  = JSON.parse(data);
-                db = mysql.createConnection(db_config);
-                db.connect(function (ex) {
-                    if (ex) {
-                        throw "Himawari: Cannot connect database. Due to '" + ex.stack + "'";
-                    }
-                    fullfill();
-                });
+        var deferred = Q.defer();
+        fs.readFile(config.files.db_config, 'utf8', function (ex, data) {
+            var db_config  = JSON.parse(data);
+            db = mysql.createConnection(db_config);
+            db.connect(function (ex) {
+                if (ex) {
+                    throw "Himawari: Cannot connect database. Due to '" + ex.stack + "'";
+                }
+                deferred.resolve();
             });
         });
+        return deferred.promise;
     }
 
     function initControllers() {
-        return new Promise(function (fullfill){
-            Member.init(db);
-            fullfill();
-        });
+        var deferred = Q.defer();
+        Member.init(db);
+        clients = new Clients();
+        deferred.resolve();
+        return deferred.promise;
     }
 
     function initRouter() {
-        return new Promise(function (fullfill) {
-            router = new Router();
-            router.load(config.files.routes).then(function () {
-                fullfill();
-            });
+        var deferred = Q.defer();
+        router = new Router();
+        router.load(config.files.routes).then(function () {
+            deferred.resolve();
         });
+        return deferred.promise;
     }
 
     function handleConnections() {
@@ -87,7 +86,7 @@ function Himawari() {
             backend_socket = io.of('/backend');
 
         client_socket.on('connection', function(socket) {
-            sockets.clients.push(socket);
+            clients.addSocket(socket);
         });
 
         backend_socket.on('connection', function(socket) {
