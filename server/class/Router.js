@@ -15,14 +15,15 @@ module.exports = function Router() {
 
     this.match = function (reqMethod, reqUrl) {
         var pre_regex, regex, route, args;
-        if (!regMethod.toLowerCase() in routes) throw "Himawari.Router: Method unknown.";
+
+        if (!reqMethod.toLowerCase() in routes) throw "Himawari.Router: Method unknown.";
         for (var i = 0; i < routes[reqMethod].length; i++) {
             route = routes[reqMethod][i];
             pre_regex = route.getUrl().replace(/\/:[\w]+\//g, '/([\\w\\d]+)/');
             regex = new RegExp('^' + pre_regex + '$');
-            if (reg.test(reqUrl)) {
-                args = reg.match(regUrl).splice(1);
-                return {action: route.getAction(), args: args};
+            if (regex.test(reqUrl)) {
+                args = regex.exec(reqUrl).splice(1);
+                return {name: route.getAction(), args: args};
             }
         }
         return false;

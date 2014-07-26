@@ -25,12 +25,12 @@ function Api(_socket) {
     };
 
     function request (method, target, data) {
-        var deferred = q.defer();
+        var deferred = Q.defer();
         socket.emit('api', {method: method, target: target, data: data}, function(response) {
             if (response.status == RESPONSE_CODE.OK) {
-                deferred.resolve();
+                deferred.resolve(response.data);
             } else {
-                deferred.reject();
+                deferred.reject(response.error);
             }
         });
         return deferred.promise;

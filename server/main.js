@@ -8,12 +8,24 @@ function Himawari() {
         db,
         router,
         clients, backend,
-        member;
+        member, members,
+        self = this;
 
     var Q = require('q');
     var fs = require('fs');
 
     main();
+
+    this.action = function (action_name, args) {
+        var parsed = action_name.split('.');
+        console.log(parsed)
+        console.log(Members);
+        members[parsed[1]].apply(this, args).then(function (data) {
+            console.log(members.getCollection());
+        });
+    }
+
+    console.log(typeof this.action);
 
     function main() {
         loadConfig()
@@ -22,12 +34,11 @@ function Himawari() {
             })
             .then(function () { return initDatabase(); })
             .then(function () {
-                handleConnections();
                 initControllers();
             })
             .then(function () { return initRouter(); })
             .then(function () {
-
+                handleConnections();
             });
     }
 
@@ -72,9 +83,9 @@ function Himawari() {
     }
 
     function initControllers() {
-        member = new Member(db);
-        clients = new Clients();
-        backend = new Backend();
+        clients = new Clients(self);
+        backend = new Backend(self);
+        Members.init(db);
     }
 
     function initRouter() {
@@ -89,6 +100,8 @@ function Himawari() {
     function handleConnections() {
         var client_socket = io.of('/client'),
             backend_socket = io.of('/backend');
+        clients.setRouter(router);
+        backend.setRouter(router);
 
         client_socket.on('connection', function(socket) {
             console.log("Client Socket Connected: " + socket.id);
@@ -101,5 +114,4 @@ function Himawari() {
         });
     }
 }
-
 var app = new Himawari();

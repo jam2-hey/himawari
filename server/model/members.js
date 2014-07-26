@@ -1,43 +1,18 @@
-module.exports = function Members(_db) {
+Q = require('q');
+module.exports = {
 
-    var db = _db,
-        collection = [];
+    db: null,
 
-    var Member = require('./member.js');
-    var Q = require('q');
-    var _ = require('underscore');
+    init: function (_db) {
+        this.db = _db;
+    },
 
-    init();
-    
-    function init() {
-        return;
-    }
-    
-    this.getCollection = function () {
-        return collection;
-    }
-    
-    this.each = function (iterator) {
-        _.each(collection, interator);
-    }
-
-    this.getAll = function () {
+    getAll: function () {
         var deferred = Q.defer(),
             sql = "SELECT * FROM `member`;";
-
-        db.query(sql, [], function (e, r, f) {
-            for(var k in r) {
-                var member = new Member(db);
-                member.createFromArray(r[k]);
-                collection.push(member);
-            }
-            deferred.resolve();
+        this.db.query(sql, [], function (e, r, f) {
+            deferred.resolve(r);
         });
         return deferred.promise;
     }
-    
-    this.getMemberById = function (id) {
-        
-    }
-
 }

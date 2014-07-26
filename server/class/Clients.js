@@ -1,6 +1,11 @@
 module.exports = function Clients() {
 
-    var sockets = {};
+    var sockets = {},
+        router;
+
+    this.setRouter = function (_router) {
+        router = _router;
+    }
 
     this.addSocket = function (socket) {
         socket.on('disconnect', function () {
