@@ -28,11 +28,7 @@ function Himawari() {
             })
             .then(function () { return initRouter(); })
             .then(function () {
-                var all_m = new Members(db);
-                all_m.getAll().then(function () {
-                    console.log(all_m.getCollection());
-                }, function () {
-                });
+
             });
     }
 
