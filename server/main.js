@@ -1,11 +1,14 @@
 function Himawari() {
 
     var CONFIG_FILE = './config.json',
+        Mysql, Route, Router, Clients,
+        Member, Members,
         config,
-        io,
+        io, _,
         db,
         router,
         clients,
+        member,
         backend;
 
     var Q = require('q');
@@ -15,12 +18,22 @@ function Himawari() {
 
     function main() {
         loadConfig()
-            .then(requires)
-            .then(initDatabase)
-            .then(handleConnections)
-            .then(initControllers)
-            .then(initRouter)
-            .then(function (){});
+            .then(function () {
+                requires();
+            })
+            .then(function () { return initDatabase(); })
+            .then(function () {
+                handleConnections();
+                initControllers();
+            })
+            .then(function () { return initRouter(); })
+            .then(function () {
+                var all_m = new Members(db);
+                all_m.getAll().then(function () {
+                    console.log(all_m.getCollection());
+                }, function () {
+                });
+            });
     }
 
     function loadConfig() {
@@ -34,26 +47,24 @@ function Himawari() {
     }
 
     function requires() {
-        var deferred = Q.defer();
         // Libraries
         io = require('socket.io').listen(9999);
         _ = require('underscore');
-        mysql = require('mysql');
+        Mysql = require('mysql');
         // Classes
         Route = require('./class/Route.js');
         Router = require('./class/Router.js');
         Clients = require('./class/Clients.js');
-        // Controller
-        Member = require('./controller/members.js');
-        deferred.resolve();
-        return deferred.promise;
+        // Model
+        Member = require('./model/member.js');
+        Members = require('./model/members.js');
     }
 
     function initDatabase() {
         var deferred = Q.defer();
         fs.readFile(config.files.db_config, 'utf8', function (ex, data) {
             var db_config  = JSON.parse(data);
-            db = mysql.createConnection(db_config);
+            db = Mysql.createConnection(db_config);
             db.connect(function (ex) {
                 if (ex) {
                     throw "Himawari: Cannot connect database. Due to '" + ex.stack + "'";
@@ -65,18 +76,15 @@ function Himawari() {
     }
 
     function initControllers() {
-        var deferred = Q.defer();
-        Member.init(db);
+        member = new Member(db);
         clients = new Clients();
-        deferred.resolve();
-        return deferred.promise;
     }
 
     function initRouter() {
         var deferred = Q.defer();
         router = new Router();
-        router.load(config.files.routes).then(function () {
-            deferred.resolve();
+        router.load(config.files.route).then(function () {
+            return deferred.resolve();
         });
         return deferred.promise;
     }

@@ -2,6 +2,8 @@ module.exports = function Route(_method, _url, _action) {
     
     var method, url, action,
         METHODS = ['get', 'post', 'update', 'delete'];
+
+    var _ = require('underscore');
     
     init();
     

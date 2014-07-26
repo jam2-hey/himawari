@@ -31,6 +31,7 @@ module.exports = function Router() {
     this.load = function (file) {
         var self = this,
             deferred = Q.defer();
+
         require('fs').readFile(file, 'utf8', function (ex, data) {
             if (ex) throw 'Himawari.Router: Load error, due to \'' + ex + '\'';
             var route_def = JSON.parse(data);
