@@ -2,7 +2,7 @@ function Himawari() {
 
     var CONFIG_FILE = './config.json',
         Mysql, Route, Router, Clients, Backend,
-        Member, Members,
+        Member, Members, Orders,
         config,
         io, _,
         db,
@@ -15,17 +15,6 @@ function Himawari() {
     var fs = require('fs');
 
     main();
-
-    this.action = function (action_name, args) {
-        var parsed = action_name.split('.');
-        console.log(parsed)
-        console.log(Members);
-        members[parsed[1]].apply(this, args).then(function (data) {
-            console.log(members.getCollection());
-        });
-    }
-
-    console.log(typeof this.action);
 
     function main() {
         loadConfig()
@@ -65,6 +54,7 @@ function Himawari() {
         // Model
         Member = require('./model/member.js');
         Members = require('./model/members.js');
+        Orders = require('./model/orders.js');
     }
 
     function initDatabase() {
@@ -86,6 +76,7 @@ function Himawari() {
         clients = new Clients(self);
         backend = new Backend(self);
         Members.init(db);
+        Orders.init(db);
     }
 
     function initRouter() {

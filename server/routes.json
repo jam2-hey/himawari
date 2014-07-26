@@ -1,6 +1,7 @@
 [
     ["get", "/members/", "members.getAll"],
-    ["get", "/members/:id/", "members.getMemberById"],
+    ["get", "/members/:username/", "members.getMemberByUsername"],
     ["get", "/dishes/", "dishes.getAll"],
-    ["get", "/dishes/:id/", "dishes.getDishById"]
+    ["get", "/dishes/:id/", "dishes.getDishById"],
+    ["get", "/orders/current/", "orders.getCurrentOrder"]
 ]

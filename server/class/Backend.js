@@ -22,6 +22,7 @@ module.exports = function Backend() {
             if (route) {
                 parts = route.name.split('.');
                 action_model = that.actions_model[parts[0]];
+                console.log(route.args);
                 action_model[parts[1]].apply(action_model, route.args)
                     .then(function (r) {
                         callback({status: 0, data: r})
@@ -33,6 +34,7 @@ module.exports = function Backend() {
     }
 
     this.actions_model = {
-        'members': require('../model/members.js')
+        'members': require('../model/members.js'),
+        'orders': require('../model/orders.js')
     }
 }
