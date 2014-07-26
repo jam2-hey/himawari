@@ -1,15 +1,14 @@
 function Himawari() {
 
     var CONFIG_FILE = './config.json',
-        Mysql, Route, Router, Clients,
+        Mysql, Route, Router, Clients, Backend,
         Member, Members,
         config,
         io, _,
         db,
         router,
-        clients,
-        member,
-        backend;
+        clients, backend,
+        member;
 
     var Q = require('q');
     var fs = require('fs');
@@ -51,6 +50,7 @@ function Himawari() {
         Route = require('./class/Route.js');
         Router = require('./class/Router.js');
         Clients = require('./class/Clients.js');
+        Backend = require('./class/Backend.js');
         // Model
         Member = require('./model/member.js');
         Members = require('./model/members.js');
@@ -74,6 +74,7 @@ function Himawari() {
     function initControllers() {
         member = new Member(db);
         clients = new Clients();
+        backend = new Backend();
     }
 
     function initRouter() {
@@ -90,11 +91,13 @@ function Himawari() {
             backend_socket = io.of('/backend');
 
         client_socket.on('connection', function(socket) {
+            console.log("Client Socket Connected: " + socket.id);
             clients.addSocket(socket);
         });
 
         backend_socket.on('connection', function(socket) {
-            sockets.backend = socket;
+            console.log("Backend Connected: " + socket.id);
+            backend.setSocket(socket);
         });
     }
 }

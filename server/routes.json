@@ -1,0 +1,6 @@
+[
+    ["get", "/members/", "members.getAll"],
+    ["get", "/members/:id/", "members.getMemberById"],
+    ["get", "/dishes/", "dishes.getAll"],
+    ["get", "/dishes/:id/", "dishes.getDishById"]
+]
