@@ -3,5 +3,5 @@
     ["get", "/members/:username/", "members.getMemberByUsername"],
     ["get", "/dishes/", "dishes.getAll"],
     ["get", "/dishes/:id/", "dishes.getDishById"],
-    ["get", "/orders/current/", "orders.getCurrentOrder"]
+    ["get", "/orders/current/", "orders.getCurrentOrders"]
 ]

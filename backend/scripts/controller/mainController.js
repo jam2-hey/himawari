@@ -1,3 +1,4 @@
-app.controller('mainCtrl', function() {
-        
-});
+angular.module('BackendHimawari')
+    .controller('mainCtrl', function() {
+
+    });

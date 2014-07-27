@@ -1,3 +1,4 @@
-app.controller('topBarCtrl', function() {
-        
-});
+angular.module('BackendHimawari')
+    .controller('topBarCtrl', function() {
+
+    });
