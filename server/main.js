@@ -58,9 +58,7 @@ function Himawari() {
         Member = require('./model/member.js');
         Members = require('./model/members.js');
         Orders = require('./model/orders.js');
-        console.log(1);
         Menus = require('./model/menus.js'); 
-        console.log(2);
     }
 
     function initDatabase() {
