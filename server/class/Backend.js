@@ -35,6 +35,7 @@ module.exports = function Backend() {
 
     this.actions_model = {
         'members': require('../model/members.js'),
-        'orders': require('../model/orders.js')
+        'orders': require('../model/orders.js'),
+        'menus': require('../model/menu.js')
     }
 }

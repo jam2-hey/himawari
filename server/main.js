@@ -2,7 +2,7 @@ function Himawari() {
 
     var CONFIG_FILE = './config.json',
         Mysql, Route, Router, Clients, Backend,
-        Member, Members, Orders,
+        Member, Members, Orders, Menus,
         config,
         io, _,
         db,
@@ -28,6 +28,9 @@ function Himawari() {
             .then(function () { return initRouter(); })
             .then(function () {
                 handleConnections();
+            }).fail(function (error) {
+                console.log("=== Fail to initialize server ===");
+                console.log(error);
             });
     }
 
@@ -55,6 +58,9 @@ function Himawari() {
         Member = require('./model/member.js');
         Members = require('./model/members.js');
         Orders = require('./model/orders.js');
+        console.log(1);
+        Menus = require('./model/menu.js'); 
+        console.log(2);
     }
 
     function initDatabase() {
@@ -77,6 +83,7 @@ function Himawari() {
         backend = new Backend(self);
         Members.init(db);
         Orders.init(db);
+        Menus.init(db);
     }
 
     function initRouter() {
