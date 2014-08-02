@@ -5,3 +5,13 @@
 .float-left {
     float: left;
 }
+
+@mixin my-clearfix {
+    &:after, &:before {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}

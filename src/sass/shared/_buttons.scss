@@ -5,7 +5,7 @@ button {
     border-radius: 4px;
     font-size: 20pt;
     padding: 0 20px;
-    background-color: #EEE;
+    background-color: $color-bg;
     outline: none;
     color: $color-primary;
     transition-property: background-color color;
@@ -15,18 +15,14 @@ button {
         margin-right: 10px;
     }
     &:active {
-        background-color: darken(#FFF, 15);
+        background-color: darken($color-bg, 15);
     }
 }
 
 button.warning {
-    color: $color-warning;
+    color: $color-highlight;
 }
 
 button.normal {
-    color: $color-success;
-}
-
-button.done {
-    color: $color-notice;
+    color: $color-text;
 }

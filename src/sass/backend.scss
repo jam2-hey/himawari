@@ -3,31 +3,103 @@
 @import "shared/colors";
 @import "shared/util";
 @import "shared/buttons";
+@import "shared/shadows";
 
 html {
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
     background-color: #555;
+    font-size: 16pt;
 }
 
 body {
-    width: 1024px;
-    height: 768px;
+    width: 100%;
+    height: 100%;
     background-color: #FFF;
 }
 
 .topBar {
     width: 100%;
-    height: $topbar-height;
+    height: $topbar-height + 5px;
     background-color: $color-primary;
+    padding: 10px 10px 15px 10px;
+    box-sizing: border-box;
+    @include cube;
     button {
         height: $topbar-height - 10px * 2;
-        margin: 10px;
+        margin: 0 10px 0 0;
+    }
+}
+
+.order-list-container {
+    margin: 10px 0 0 10px;
+    box-sizing: content-box;
+    overflow: visible;
+    .rows{
+        margin-bottom: 10px;
+        @include my-clearfix;
     }
 }
 
 .order-list {
     display: block;
-    background: cyan; //XXX: DEBUG
     float: left;
-    width: 100px;
+    width: 20%;
+    overflow: visible;
+    &>ol {
+        width: 94%;
+        border: 1px solid #bbb;
+        border-radius: 3px;
+        box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.2);
+    }
+    .order-type-here header .name {
+        background: $color-green;
+    }
+    .order-type-togo header .name {
+        background: $color-red;
+    }
+    header {
+        color: $color-empty;
+        position: relative;
+        border-radius: 3px 3px 0 0;
+        @include my-clearfix;
+        .number {
+            width: 20%;
+            text-align: center;
+            background: $color-yellow;
+        }
+        .name {
+            width: 80%;
+            padding-left: 10px;
+            box-sizing: border-box;
+        }
+        .name, .number {
+            line-height: 40px;
+            display: block;
+            float: left;
+            @include cube;
+            &:after {
+                transition-property: height ;
+                transition-duration: 0.1s;
+                transition-timing-function: linear;
+            }
+        }
+    }
+    header:active {
+        .name, .number {
+            &:after {
+                height: 0px;
+            }
+        }
+    }
+    ol.order-list-items {
+        li {
+            padding: 10px 8px;
+            border-bottom: 1px solid #bbb;
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
 }

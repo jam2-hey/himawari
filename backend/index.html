@@ -23,10 +23,19 @@
         <button class="warning float-right"><i class="fa fa-cog"></i>管理</button>
     </div>
     <div class="order-list-container" ng-controller="orderListCtrl">
-        <ol class="order-list" ng-repeat="order in orders">
-            {{member_map[order.member_id].nick}}
-            <li ng-repeat="item in order.detail">{{menu[item.dish_id].name}}{{item.price}}</li>
-        </ol>
+        <div class="rows" ng-repeat="orders in rows">
+            <div class="order-list" ng-repeat="order in orders">
+                <ol class="{{order.type == 1 ? 'order-type-here' : 'order-type-togo'}}">
+                    <header>
+                        <span class="number">{{order.number}}</span>
+                        <span class="name">{{member_map[order.member_id].nick}}</span>
+                    </header>
+                    <ol class="order-list-items">
+                        <li ng-repeat="item in order.detail">{{menu[item.dish_id].short_name}}{{item.price}}</li>
+                    </ol>
+                </ol>
+            </div>
+        </div>
     </div>
 </body>
 </html>
