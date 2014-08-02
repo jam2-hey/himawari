@@ -25,7 +25,7 @@
     <div class="order-list-container" ng-controller="orderListCtrl">
         <ol class="order-list" ng-repeat="order in orders">
             {{member_map[order.member_id].nick}}
-            <li ng-repeat="item in order.detail">{{item.price}}</li>
+            <li ng-repeat="item in order.detail">{{menu[item.dish_id].name}}{{item.price}}</li>
         </ol>
     </div>
 </body>
