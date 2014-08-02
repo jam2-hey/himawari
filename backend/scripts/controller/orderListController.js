@@ -7,6 +7,9 @@ angular.module('BackendHimawari')
             .then(function () {
                 return api.get('/members/');
             })
+            .then(function () {
+                return api.get('/menus/');
+            })
             .then(function (data) {
                 $scope.member = data;
                 $scope.member_map = {}

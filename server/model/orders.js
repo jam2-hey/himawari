@@ -27,51 +27,32 @@ module.exports = {
     },
 
     getOrders: function (ids) {
-        console.log(ids);
         var deferred = Q.defer(),
-            sql = "",
-            where = (ids instanceof Array) ? "WHERE `o`.`id` IN (" + ids.join(",") + ")" : "WHERE `o`.`id` = " + ids;
+            sql = "", where;
 
-        sql  = "SELECT `o`.`id` AS `id`, `od`.`id` AS `detail_id`, `place_time`, `member_id`, `o`.`paid`, `archived`, `point_used`, `point_discount`, `o`.`type`, `o`.`number`, `discount`, `point_get`, `dish_id`, `dish_type_id`, `noodle_thickness`, `price`, `done` ";
-        sql += "FROM  `order` AS  `o` ";
-        sql += "LEFT JOIN  `order_detail` AS  `od` ON  `o`.`id` =  `od`.`order_id` ";
-        sql += where + ";";
+        if (ids instanceof Array) {
+            where = "WHERE `order`.`id` IN (" + ids.join(",") + ")"
+        } else {
+            where = "WHERE `order`.`id` = " + ids;
+        }
 
-        this.db.query(sql, function(error, records, fields) {
-            var r, id = [], carts = {}, returns = {}, array_result = [];
-            if (error) {
-                deferred.reject(error); return;
-            }
-            if (!records) {
-                deferred.resolve([]); return;
-            }
-            for (var i = 0; i < records.length; i++) {
-                r = records[i];
-                if (!(r.id in returns)) {
-                    returns[r.id] = {
-                        'id': r.id,
-                        'place_time': r.place_time,
-                        'member_id': r.member_id,
-                        'paid': r.paid,
-                        'point_used': r.point_used,
-                        'point_discount': r.point_discount,
-                        'discount': r.discount,
-                        'point_get': r.point_get,
-                        'type': r.type,
-                        'number': r.number,
-                        'cart': []
-                    };
+        sql  = "SELECT `order`.`id`, `detail`.`id`, `place_time`, `member_id`, `order`.`paid`, `archived`, `point_used`, `point_discount`, `order`.`type`, `order`.`number`, `discount`, `point_get`, `dish_id`, `dish_type_id`, `noodle_thickness`, `price`, `done` FROM  `order` LEFT JOIN  `order_detail` AS  `detail` ON  `order`.`id` =  `detail`.`order_id` " + where + ";";
+
+        var op = {sql: sql, nestTables: true};
+        this.db.query(op, function(error, result, fields) {
+            var returns = {};
+            if (error) deffered.reject(error);
+
+            for (var k in result) {
+                var r = result[k];
+                if (!returns[r.order.id]) {
+                    returns[r.order.id] = r.order;
+                    returns[r.order.id].detail = {};
                 }
-                returns[r.id].cart.push({
-                    'id': r.detail_id,
-                    'dish_id': r.dish_id,
-                    'dish_type_id': r.dish_type_id,
-                    'thickness': r.noodle_thickness,
-                    'price': r.price,
-                    'done': r.done
-                });
+                returns[r.order.id].detail[r.detail.id] = r.detail;
             }
-            deferred.resolve(_.toArray(returns));
+
+            deferred.resolve(returns);
         });
         return deferred.promise;
     }
