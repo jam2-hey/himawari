@@ -82,7 +82,7 @@ body {
             &:after {
                 transition-property: height ;
                 transition-duration: 0.1s;
-                transition-timing-function: linear;
+                transition-timing-function: ease-out;
             }
         }
     }
@@ -93,10 +93,28 @@ body {
             }
         }
     }
+    footer {
+        border-top: 1px dashed #bbb;
+        //background: $color-bg;
+        padding-right: 10px;
+        line-height: 40px;
+        text-align: right;
+    }
+    footer.final {
+        border-top: 1px dashed #bbb;
+        background: $color-bg;
+        .discount {
+            font-size: 14pt;
+            color: $color-red;
+        }
+    }
     ol.order-list-items {
         li {
             padding: 10px 8px;
             border-bottom: 1px solid #bbb;
+            .price {
+                float: right;
+            }
             &:last-child {
                 border-bottom: none;
             }

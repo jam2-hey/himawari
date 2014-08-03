@@ -31,8 +31,12 @@
                         <span class="name">{{member_map[order.member_id].nick}}</span>
                     </header>
                     <ol class="order-list-items">
-                        <li ng-repeat="item in order.detail">{{menu[item.dish_id].short_name}}{{item.price}}</li>
+                        <li ng-repeat="item in order.detail">{{menu[item.dish_id].short_name}}
+                        <span class="price">${{item.price}}</span></li>
                     </ol>
+                    <footer class="final">
+                        <span class="discount" ng-show="order.discount + order.point_discount > 0">${{order.total_price}} - ${{order.discount + order.point_discount}} = </span>${{order.total_price - (order.discount + order.point_discount)}}
+                    </footer>
                 </ol>
             </div>
         </div>
