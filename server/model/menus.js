@@ -9,6 +9,20 @@ module.exports = {
         this.db = _db;
     },
 
+    getGroups: function () {
+        var deferred = Q.defer();
+        var sql = "SELECT * FROM `menu_dish_group`;";
+        this.db.query(sql, [], function (error, result, field) {
+            var returns = {};
+            if (error) deferred.reject(error);
+            for (var k in result) {
+                var r = result[k];
+                returns[r.id] = r;
+            }
+            deferred.resolve(returns);
+        });
+    },
+
     getMenu: function () {
         var deferred = Q.defer();
 		var sql = "SELECT `dish`.`id`,`dish`.`name`, `dish`.`short_name`, `dish`.`is_noodle`, `dish`.`status`, `dish`.`stock`, `dish`.`group_id`, `subtype`.`id`, `subtype`.`name`, `subtype`.`price` FROM `menu_dishes` AS `dish` LEFT JOIN `menu_dishes_type` AS `subtype` ON `dish`.`id` = `subtype`.`dishes_id`;";
