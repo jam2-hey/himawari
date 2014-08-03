@@ -3,7 +3,8 @@ angular.module('BackendHimawari')
         $scope.$on('openOrderDetail', function (event, data) {
             ngDialog.open({
                 template: 'template/orderDetail.html',
-                controller: 'orderDetail'
+                controller: 'orderDetail',
+                className: 'ngdialog-theme-default orderDetail'
             });
         });
     });
