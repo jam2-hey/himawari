@@ -31,7 +31,7 @@
                         <span class="name">{{member_map[order.member_id].nick}}</span>
                     </header>
                     <ol class="order-list-items">
-                        <li ng-repeat="item in order.detail">{{menu[item.dish_id].short_name}}
+                        <li ng-repeat="item in order.detail" style="color: #{{groups[menu[item.dish_id].group_id].color}};">{{menu[item.dish_id].short_name}}
                         <span class="price">${{item.price}}</span></li>
                     </ol>
                     <footer class="final">
