@@ -55,7 +55,6 @@ function Himawari() {
         Clients = require('./class/Clients.js');
         Backend = require('./class/Backend.js');
         // Model
-        Member = require('./model/member.js');
         Members = require('./model/members.js');
         Orders = require('./model/orders.js');
         Menus = require('./model/menus.js'); 
