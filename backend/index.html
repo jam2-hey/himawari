@@ -5,6 +5,7 @@
     <title>Backend - Himawari 點餐系統</title>
     <link rel="stylesheet" type="text/css" href="//assets.himawari.local/styles/backend.css">
     <link rel="stylesheet" type="text/css" href="//assets.himawari.local/styles/font-awesome/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="//assets.himawari.local/styles/ngDialog/ngDialog.css">
     <script src="//ws-api.himawari.local:9999/socket.io/socket.io.js"></script>
     <script src="//assets.himawari.local/lib/angular.min.js"></script>
     <script src="//assets.himawari.local/lib/q.js"></script>
@@ -15,6 +16,7 @@
     <script src="/scripts/controller/mainController.js"></script>
     <script src="/scripts/controller/topBarController.js"></script>
     <script src="/scripts/controller/orderListController.js"></script>
+    <script src="/scripts/controller/orderDetail.js"></script>
 </head>
 <body ng-controller="mainCtrl">
     <div class="topBar" ng-controller="topBarCtrl">
@@ -23,11 +25,11 @@
         <button class="normal"><i class="fa fa-sitemap"></i>控制</button>
         <button class="warning float-right"><i class="fa fa-cog"></i>管理</button>
     </div>
-    <div class="order-list-container" ng-controller="orderListCtrl">
+    <div class="order-list-container" ng-controller="orderListController as orderListCtrl">
         <div class="rows" ng-repeat="orders in rows">
             <div class="order-list" ng-repeat="order in orders">
                 <ol class="{{order.type == 1 ? 'order-type-here' : 'order-type-togo'}}">
-                    <header>
+                    <header ng-click="orderListCtrl.openOrderDetail(order.id)">
                         <span class="number">{{order.number}}</span>
                         <span class="name">{{member_map[order.member_id].nick}}</span>
                     </header>

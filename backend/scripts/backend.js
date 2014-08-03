@@ -1,4 +1,4 @@
-var app = angular.module('BackendHimawari', []);
+var app = angular.module('BackendHimawari', ['ngDialog']);
 
 /*
 api.get('/members/').then(function (data) {
