@@ -11,7 +11,7 @@ module.exports = {
 
     getGroups: function () {
         var deferred = Q.defer();
-        var sql = "SELECT * FROM `menu_dish_group`;";
+        var sql = "SELECT * FROM `menu_dishes_group`;";
         this.db.query(sql, [], function (error, result, field) {
             var returns = {};
             if (error) deferred.reject(error);
@@ -21,6 +21,7 @@ module.exports = {
             }
             deferred.resolve(returns);
         });
+        return deferred.promise;
     },
 
     getMenu: function () {

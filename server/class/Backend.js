@@ -26,6 +26,8 @@ module.exports = function Backend() {
                 action_model[parts[1]].apply(action_model, route.args)
                     .then(function (r) {
                         callback({status: 0, data: r})
+                    }).then(function (error) {
+                        console.log(error);
                     });
             } else {
                 callback({status: 1})

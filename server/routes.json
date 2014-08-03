@@ -4,5 +4,6 @@
     ["get", "/dishes/", "dishes.getAll"],
     ["get", "/dishes/:id/", "dishes.getDishById"],
     ["get", "/orders/current/", "orders.getCurrentOrders"],
-    ["get", "/menus/", "menus.getMenu"]
+    ["get", "/menus/", "menus.getMenu"],
+    ["get", "/menus/groups/", "menus.getGroups"]
 ]
